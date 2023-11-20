@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from webbolid.views import PListView, PListDetailView, PListUpdateView
+from webbolid.views import PListView, PListDetailView, PListUpdateView, SearchListViews
 
 # from webbolid.views import PListViewSet, PlistPictureView, PlistDetailView, PLogDataViewSet, \
 #     PListSearchView, PListView, PListDetailView
@@ -16,6 +16,7 @@ urlpatterns = [
     path('', PListView.as_view(), name='list'),
     path('<int:pk>/', PListDetailView.as_view(), name='list_detail'),
     path('<int:pk>/update', PListUpdateView.as_view(), name='list_update'),
+    path('search/', SearchListViews.as_view(), name='search'),
 
     # ========  DRF  ========
     # path('p-list/<int:pk>/', PlistDetailView.as_view(), name='plist_detail'),

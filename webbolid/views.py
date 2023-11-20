@@ -1,4 +1,5 @@
 import base64
+from datetime import datetime
 
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
@@ -53,6 +54,28 @@ class PListUpdateView(generic.UpdateView):
 
     def get_queryset(self):
         return Plist.objects.all()
+
+
+class SearchListViews(PListView):
+    model = Plogdata
+    template_name = 'webbolid/search_list.html'
+    context_object_name = 'search'  # имя списка
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['filter'] = PLogDataFilter(
+    #         self.request.GET, queryset=self.get_queryset())
+    #     return context
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return PLogDataFilter(self.request.GET, queryset=queryset).qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # context['time_now'] = datetime.now()
+        context['filter'] = PLogDataFilter(
+            self.request.GET, queryset=self.get_queryset())
+        return context
 
 
 
