@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список записей</title>
+    <!-- Подключение стилей (замените на свои стили или Bootstrap) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            margin: 0;
+            padding: 5px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+{% block content %}
+    <div class="container">
+        {% for p in list %}
+            <p><a href="{% url 'list_detail' p.pk %}">{{ p.name }} {{ p.firstname }} {{ p.midname }}</a></p>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% include "pagination.html" %}
+
+<!-- Подключение скриптов (если нужны) -->
+
+</body>
+</html>

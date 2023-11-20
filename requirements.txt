@@ -1,0 +1,11 @@
+pyodbc
+python-dotenv
+gunicorn
+django
+djangorestframework
+djangorestframework-simplejwt
+djangorestframework-csv
+markdown
+django-filter
+Pillow
+mssql-django

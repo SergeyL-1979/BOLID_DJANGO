@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Plist Picture</title>
+{% endblock title %}
+{% block content %}
+<body>
+    <div class="container">
+        <p>{{ name }}
+        {{ firstname }}
+        {{ midname }}</p>
+        <!-- Преобразование Base64 в изображение -->
+        <p>{% if picture_url %}
+        <img src="{{ picture_url }}" alt="Plist Picture" width="150" height="200">
+        {% else %}
+        <strong>ФОТО ОТСУСТВУЕТ В БАЗЕ</strong>
+        {% endif %}</p>
+        <!-- Остальные поля модели -->
+        <p>Начало действия: {{ workphone }}</p>
+        <p>Окончание действия: {{ homephone }}</p>
+        <p>Компания: {{ company }}</p>
+        <p>Подразделение: {{ post }}</p>
+        <p>Табельный номер: {{ tabnumber }}</p>
+        <a class="btn btn-primary" href="{% url 'plist_detail' pk=pk %}">Редактирование</a>
+        <button class="btn btn-primary" onclick="history.back()"> Назад </button>
+{#    <input type="button" onclick="history.back();" value="Пред. страница"/>#}
+    </div>
+</body>
+{% endblock content %}

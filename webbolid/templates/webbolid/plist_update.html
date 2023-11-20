@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Редактирование записи</title>
+    <!-- Подключение Bootstrap (замените путем подключения вашей версии Bootstrap) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Дополнительные стили, если необходимо */
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #007bff;
+        }
+        .btn-cancel {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+{% block content %}
+<div class="container">
+    <h2>Редактирование записи</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </form>
+
+    <button class="btn btn-secondary btn-cancel" onclick="window.location.href='{% url 'list_detail' object.pk %}'">Отмена</button>
+</div>
+
+<!-- Подключение Bootstrap (замените путем подключения вашей версии Bootstrap) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock content %}
+</body>
+</html>
