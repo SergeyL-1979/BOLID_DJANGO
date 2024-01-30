@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- В файле plogdata_list.html -->
+<form method="get">
+    {{ form.as_p }}
+    <button type="submit">Искать</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Время записи</th>
+            <th>Событие</th>
+            <th>Сотрудники</th>
+            <th>Замечание</th>
+            <th>Время устройства</th>
+            <!-- Добавьте другие необходимые заголовки столбцов -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for obj in object_list %}
+            <tr>
+                <td>{{ obj.timeval }}</td>
+                <td>{{ obj.event }}</td>
+                <td>{{ obj.hozorgan }}</td>
+                <td>{{ obj.remark }}</td>
+                <td>{{ obj.devicetime }}</td>
+                <!-- Добавьте другие необходимые ячейки данных -->
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>
