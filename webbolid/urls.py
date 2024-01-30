@@ -1,7 +1,9 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from webbolid.views import PListView, PListDetailView, PListUpdateView, SearchListViews
+from webbolid.views import (
+    PListView, PListDetailView,
+    PListUpdateView, SearchListView, )
 
 # from webbolid.views import PListViewSet, PlistPictureView, PlistDetailView, PLogDataViewSet, \
 #     PListSearchView, PListView, PListDetailView
@@ -14,9 +16,10 @@ from webbolid.views import PListView, PListDetailView, PListUpdateView, SearchLi
 urlpatterns = [
     # path('', include(router.urls)),
     path('', PListView.as_view(), name='list'),
-    path('<int:pk>/', PListDetailView.as_view(), name='list_detail'),
-    path('<int:pk>/update', PListUpdateView.as_view(), name='list_update'),
-    path('search/', SearchListViews.as_view(), name='search'),
+    path('p-list/<int:pk>/', PListDetailView.as_view(), name='list_detail'),
+    path('p-list/<int:pk>/update/', PListUpdateView.as_view(), name='list_update'),
+    path('p-list/search/', SearchListView.as_view(), name='search_results'),
+    # path('plogdata/', PLogDataListView.as_view(), name='plogdata_list'),
 
     # ========  DRF  ========
     # path('p-list/<int:pk>/', PlistDetailView.as_view(), name='plist_detail'),

@@ -1,24 +1,114 @@
-{% load tz l10n%}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .search-form {
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .result-item {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .step-links {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .step-links a {
+            color: #333;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+
+        .step-links a:hover {
+            background-color: #f4f4f4;
+        }
+
+        .current {
+            font-weight: bold;
+            margin: 0 10px;
+        }
+    </style>
 </head>
 <body>
 {% block content %}
-    <form method="get">
+    <form method="get" class="search-form">
         {{ filter.form.as_p }}
-        <button type="submit">Search</button>
+        <button type="submit" class="search-button">Search</button>
     </form>
+{#    <form method="post" action="{% url 'search_results' %}">#}
+{#    {% csrf_token %}#}
+{#    {{ filters.form.as_p }}#}
+{#    <button type="submit">Искать</button>#}
+{#    </form>#}
 
-    {% for item in search %}
-        {# Выводите информацию о найденных объектах #}
-        <p>{{ item.hozorgan }}</p>
-        <p>{{ item.devicetime|date:'d F Y G:i' }}</p>
-        <p>{{ item.event }}</p>
-    {% endfor %}
+    <div class="search-results">
+        {% for item in search %}
+            <div class="result-item">
+                <p>{{ item.hozorgan }}</p>
+                <p>{{ item.devicetime|date:'d F Y G:i' }}</p>
+                <p>{{ item.event }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if search.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ search.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ search.number }} of {{ search.paginator.num_pages }}.
+        </span>
+
+        {% if search.has_next %}
+            <a href="?page={{ search.next_page_number }}">next</a>
+            <a href="?page={{ search.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock content %}
 </body>
 </html>

@@ -1,20 +1,16 @@
 import base64
 from datetime import datetime
 
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-from django.views.generic.base import TemplateView
-from django_filters import rest_framework as filters
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views import generic
-
-from rest_framework import viewsets, generics
-from rest_framework import views
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from django_filters.views import FilterView
 
 from webbolid.filters import PLogDataFilter
-from webbolid.forms import PListSearchForm, PlistForm
+from webbolid.forms import PlistForm, SearchForm
 from webbolid.models import Plist, Plogdata
 from webbolid.serializers import PListSerializer, PlistPictureSerializer, PLogDataSerializer
 
@@ -23,7 +19,7 @@ class PListView(generic.ListView):
     model = Plist
     context_object_name = 'list'
     # ordering = ['name']
-    paginate_by = 15
+    paginate_by = 10
 
 
 class PListDetailView(generic.DetailView):
@@ -56,28 +52,54 @@ class PListUpdateView(generic.UpdateView):
         return Plist.objects.all()
 
 
-class SearchListViews(PListView):
+class SearchListView(generic.ListView):
     model = Plogdata
     template_name = 'webbolid/search_list.html'
-    context_object_name = 'search'  # имя списка
+    context_object_name = 'search'
+    ordering = ['hozorgan']
+    form_class = SearchForm
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['filter'] = PLogDataFilter(
-    #         self.request.GET, queryset=self.get_queryset())
-    #     return context
+    @method_decorator(cache_page(60 * 1))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
     def get_queryset(self):
         queryset = super().get_queryset()
-        return PLogDataFilter(self.request.GET, queryset=queryset).qs
+        return PLogDataFilter(
+            self.request.GET,
+            queryset=queryset).qs.only(
+            'timeval', 'event', 'hozorgan',
+            'remark', 'devicetime', 'guid'
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['time_now'] = datetime.now()
         context['filter'] = PLogDataFilter(
             self.request.GET, queryset=self.get_queryset())
+
+        paginator = Paginator(context['search'], 15)  # Показывать 10 результатов на странице
+        page = self.request.GET.get('page')
+
+        try:
+            context['search'] = paginator.page(page)
+        except PageNotAnInteger:
+            context['search'] = paginator.page(1)
+        except EmptyPage:
+            context['search'] = paginator.page(paginator.num_pages)
         return context
 
 
+# class PLogDataListView(generic.ListView):
+#     # model = Plogdata
+#     filterset_class = PLogDataFilter
+#     template_name = 'webbolid/plogdata_list.html'  # Вам нужно создать этот файл шаблона
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['form'] = PLogDataFilter(self.request.GET, queryset=self.get_queryset())
+#         return context
+
+# ================================================================================
 
 # class PListViewSet(viewsets.ModelViewSet):
 #     queryset = Plist.objects.all()
@@ -163,4 +185,3 @@ class SearchListViews(PListView):
 #         serializer = self.get_serializer(queryset, many=True)
 #         context = {'form': form, 'data': serializer.data}
 #         return render(request, 'plist_search_results.html', context)
-
