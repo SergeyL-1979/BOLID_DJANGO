@@ -90,6 +90,19 @@
             <p><a href="{% url 'list_detail' p.pk %}">{{ p.name }} {{ p.firstname }} {{ p.midname }}</a></p>
         {% endfor %}
     </div>
+
+    <div class="container">
+        <form method="get" class="search-form">
+            {{ filter.form.as_p }}
+            <button type="submit">Применить фильтр</button>
+        </form>
+
+        <ul>
+            {% for obj in filter.qs %}
+                <li>{{ obj.name }} - {{ obj.firstname }} - {{ obj.midname }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock content%}
 
 {% include "pagination.html" %}

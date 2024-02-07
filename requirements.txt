@@ -9,3 +9,4 @@ markdown
 django-filter
 Pillow
 mssql-django
+django-debug-toolbar

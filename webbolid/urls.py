@@ -3,7 +3,7 @@ from rest_framework import routers
 
 from webbolid.views import (
     PListView, PListDetailView,
-    PListUpdateView, SearchListView, )
+    PListUpdateView, SearchListView, PlistListView, )
 
 # from webbolid.views import PListViewSet, PlistPictureView, PlistDetailView, PLogDataViewSet, \
 #     PListSearchView, PListView, PListDetailView
@@ -18,7 +18,9 @@ urlpatterns = [
     path('', PListView.as_view(), name='list'),
     path('p-list/<int:pk>/', PListDetailView.as_view(), name='list_detail'),
     path('p-list/<int:pk>/update/', PListUpdateView.as_view(), name='list_update'),
-    path('p-list/search/', SearchListView.as_view(), name='search_results'),
+    path('search/', SearchListView.as_view(), name='search_results'),
+    # ==== добавили поиск по имени =============
+    path('search/list/', PlistListView.as_view(), name='search_list'),
     # path('plogdata/', PLogDataListView.as_view(), name='plogdata_list'),
 
     # ========  DRF  ========

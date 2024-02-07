@@ -75,12 +75,8 @@
     <form method="get" class="search-form">
         {{ filter.form.as_p }}
         <button type="submit" class="search-button">Search</button>
+        <button type="button" class="search-button" onclick="window.location.href='/'"> Назад </button>
     </form>
-{#    <form method="post" action="{% url 'search_results' %}">#}
-{#    {% csrf_token %}#}
-{#    {{ filters.form.as_p }}#}
-{#    <button type="submit">Искать</button>#}
-{#    </form>#}
 
     <div class="search-results">
         {% for item in search %}
@@ -95,8 +91,12 @@
 <div class="pagination">
     <span class="step-links">
         {% if search.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ search.previous_page_number }}">previous</a>
+{#            <a href="?page=1">&laquo; first</a>#}
+{#            <a href="?page={{ search.previous_page_number }}">previous</a>#}
+{#            <a href="?{{ request.GET.urlencode }}&page=1">&laquo; first</a>#}
+{#            <a href="?{{ request.GET.urlencode }}&page={{ search.previous_page_number }}">previous</a>#}
+            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&page=1">&laquo; first</a>
+            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&page={{ search.previous_page_number }}">previous</a>
         {% endif %}
 
         <span class="current">
@@ -104,8 +104,12 @@
         </span>
 
         {% if search.has_next %}
-            <a href="?page={{ search.next_page_number }}">next</a>
-            <a href="?page={{ search.paginator.num_pages }}">last &raquo;</a>
+{#            <a href="?page={{ search.next_page_number }}">next</a>#}
+{#            <a href="?page={{ search.paginator.num_pages }}">last &raquo;</a>#}
+{#            <a href="?{{ request.GET.urlencode }}&page={{ search.next_page_number }}">next</a>#}
+{#            <a href="?{{ request.GET.urlencode }}&page={{ search.paginator.num_pages }}">last &raquo;</a>#}
+            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&page={{ search.next_page_number }}">next</a>
+            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&page={{ search.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
 </div>

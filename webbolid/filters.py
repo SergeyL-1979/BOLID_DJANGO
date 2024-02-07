@@ -2,7 +2,7 @@ from django import forms
 import django_filters
 # from django_filters import rest_framework as filters
 
-from webbolid.models import Plogdata
+from webbolid.models import Plogdata, Plist
 
 from django.db.models import Sum, F, ExpressionWrapper, fields
 
@@ -29,6 +29,22 @@ class PLogDataFilter(django_filters.FilterSet):
     class Meta:
         model = Plogdata
         fields = ['hozorgan', 'min_date', 'max_date']
+
+
+class PlistFilter(django_filters.FilterSet):
+    class Meta:
+        model = Plist
+        fields = {
+            'name': ['exact', ],
+            'firstname': ['exact', ],
+            'midname': ['exact', ],
+            'workphone': ['exact', ],
+            'homephone': ['exact', ],
+            'company__name': ['exact'],
+            'post__name': ['exact'],
+            'tabnumber': ['exact', ],
+        }
+
 
 # =======================================================
 # class PLogDataFilter(filters.FilterSet):
