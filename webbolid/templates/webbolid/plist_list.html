@@ -84,28 +84,27 @@
 <body>
 
 {% block content %}
+<div class="container">
+    <a href="{% url 'search_results' %}" class="search-button">Перейти к поиску</a>
+
     <div class="container">
-        <a href="{% url 'search_results' %}" class="search-button">Перейти к поиску</a>
-        {% for p in list %}
-            <p><a href="{% url 'list_detail' p.pk %}">{{ p.name }} {{ p.firstname }} {{ p.midname }}</a></p>
+        <form action="{% url 'search_list' %}" method="get" class="search-form">
+            {{ filter.form.as_ul }}
+            <li><input type="submit" class="btn btn-success" value="Search"></li>
+        </form>
+    </div>
+
+    <div class="container">
+        {% for list in object_list %}
+        <p><a href="{% url 'list_detail' list.pk %}">{{ list.name }} {{ list.firstname }} {{ list.midname }}</a></p>
         {% endfor %}
     </div>
 
-    <div class="container">
-        <form method="get" class="search-form">
-            {{ filter.form.as_p }}
-            <button type="submit">Применить фильтр</button>
-        </form>
+</div>
 
-        <ul>
-            {% for obj in filter.qs %}
-                <li>{{ obj.name }} - {{ obj.firstname }} - {{ obj.midname }}</li>
-            {% endfor %}
-        </ul>
-    </div>
 {% endblock content%}
 
-{% include "pagination.html" %}
+{% include "paginations.html" %}
 
 </body>
 </html>

@@ -15,25 +15,31 @@ from webbolid.models import Plist, Plogdata
 from webbolid.serializers import PListSerializer, PlistPictureSerializer, PLogDataSerializer
 
 
+# ======= Добавлен код для поиска на странице по имени ==================
+# def plist_list(request):
+#     f = PlistFilter(request.GET, queryset=Plist.objects.all())
+#     return render(request, 'webbolid/plist_list.html', {'filter': f})
+
+
+class PlistListFilter(FilterView):
+    filterset_class = PlistFilter
+    queryset = Plist.objects.all()
+    template_name = 'webbolid/plist_search.html'
+    ordering = ['name']
+    paginate_by = 5
+# ==========================================================================
+
+
 class PListView(generic.ListView):
     model = Plist
     context_object_name = 'list'
-    # ordering = ['name']
-    paginate_by = 10
-
-
-# ======= Добавлен код для поиска на странице по имени ==================
-def plist_list(request):
-    f = PlistFilter(request.GET, queryset=Plist.objects.all())
-    return render(request, 'webbolid/plist_list.html', {'filter': f})
-
-
-class PlistListView(FilterView):
-    filterset_class = PlistFilter
-    queryset = Plist.objects.all()
-    template_name = 'webbolid/plist_list.html'
+    ordering = ['name']
     paginate_by = 5
-# ==========================================================================
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['filter'] = PlistFilter(self.request.GET, queryset=Plist.objects.all())
+        return context
 
 
 class PListDetailView(generic.DetailView):
@@ -66,6 +72,7 @@ class PListUpdateView(generic.UpdateView):
         return Plist.objects.all()
 
 
+# ================= ПОИСК В ТАБЛИЦЕ PLOGDATA ============================
 class SearchListView(generic.ListView):
     model = Plogdata
     template_name = 'webbolid/search_list.html'
@@ -91,9 +98,7 @@ class SearchListView(generic.ListView):
         filters = PLogDataFilter(self.request.GET, queryset=self.get_queryset())
         context['filter'] = filters
 
-        # paginator = Paginator(context['search'], 10)  # Показывать 10 результатов на странице
-        # page = self.request.GET.get('page')
-        paginator = Paginator(filters.qs, 10)  # Use the filtered queryset here
+        paginator = Paginator(filters.qs, 10)
         page = self.request.GET.get('page')
 
         try:
@@ -104,99 +109,5 @@ class SearchListView(generic.ListView):
             search_results = paginator.page(paginator.num_pages)
 
         context['search'] = search_results
-
-        # try:
-        #     context['search'] = paginator.page(page)
-        # except PageNotAnInteger:
-        #     context['search'] = paginator.page(1)
-        # except EmptyPage:
-        #     context['search'] = paginator.page(paginator.num_pages)
         return context
-
-
 # ================================================================================
-
-# class PListViewSet(viewsets.ModelViewSet):
-#     queryset = Plist.objects.all()
-#     serializer_class = PListSerializer
-#     filter_backends = [filters.DjangoFilterBackend, ]
-#     filterset_fields = ["name", "company", "post"]
-#
-#
-# class PlistPictureView(APIView):
-#
-#     def get(self, request, pk):
-#         plist = get_object_or_404(Plist, pk=pk)
-#         serializer = PlistPictureSerializer(plist, context={'request': request})
-#         picture_url = serializer.data['picture_url']
-#         name = serializer.data['name']
-#         firstname = serializer.data['firstname']
-#         midname = serializer.data['midname']
-#         workphone = serializer.data['workphone']
-#         homephone = serializer.data['homephone']
-#         company = serializer.data['company']
-#         post = serializer.data['post']
-#         tabnumber = serializer.data['tabnumber']
-#         pk = serializer.data['id']
-#         return render(request,
-#                       'plist_picture.html',
-#                       {
-#                           'picture_url': picture_url,
-#                           'name': name,
-#                           'firstname': firstname,
-#                           'midname': midname,
-#                           'workphone': workphone,
-#                           'homephone': homephone,
-#                           'company': company,
-#                           'post': post,
-#                           'tabnumber': tabnumber,
-#                           'pk': pk,
-#                       })
-#
-#
-# class PlistDetailView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Plist.objects.all()
-#     # serializer_class = PlistPictureSerializer
-#     serializer_class = PListSerializer
-#
-#     def get_object(self):
-#         return get_object_or_404(Plist, pk=self.kwargs.get('pk'))
-#
-#
-# class PLogDataViewSet(viewsets.ModelViewSet):
-#     queryset = Plogdata.objects.select_related("hozorgan", "event").order_by('-devicetime')
-#     serializer_class = PLogDataSerializer
-#     filter_backends = [filters.DjangoFilterBackend, ]  # filters.SearchFilter]
-#     filterset_class = PLogDataFilter
-#
-#
-# class PListSearchView(generics.ListCreateAPIView):
-#     queryset = Plist.objects.all()
-#     serializer_class = PListSerializer  # Замените YourSerializer на ваш сериализатор для модели Plist
-#     pagination_class = PageNumberPagination  # Используем PageNumberPagination
-#
-#     def get(self, request, *args, **kwargs):
-#         form = PListSearchForm(request.GET)
-#         queryset = self.get_queryset()
-#
-#         if form.is_valid():
-#             for field, value in form.cleaned_data.items():
-#                 if value:
-#                     lookup = f"{field}__icontains"
-#                     queryset = queryset.filter(**{lookup: value})
-#
-#         page = self.paginate_queryset(queryset)
-#
-#         if page is not None:
-#             serializer = self.get_serializer(page, many=True)
-#             context = {
-#                 'form': form,
-#                 'data': serializer.data,
-#                 'paginator': self.pagination_class,
-#                 'page_obj': page,
-#             }
-#             return render(request, 'plist_search_results.html', context)
-#
-#         serializer = self.get_serializer(queryset, many=True)
-#         context = {'form': form, 'data': serializer.data}
-#         return render(request, 'plist_search_results.html', context)

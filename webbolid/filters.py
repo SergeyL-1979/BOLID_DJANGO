@@ -38,11 +38,11 @@ class PlistFilter(django_filters.FilterSet):
             'name': ['exact', ],
             'firstname': ['exact', ],
             'midname': ['exact', ],
-            'workphone': ['exact', ],
-            'homephone': ['exact', ],
-            'company__name': ['exact'],
-            'post__name': ['exact'],
-            'tabnumber': ['exact', ],
+            # 'workphone': ['exact', ],
+            # 'homephone': ['exact', ],
+            # 'company__name': ['exact'],
+            # 'post__name': ['exact'],
+            # 'tabnumber': ['exact', ],
         }
 
 
