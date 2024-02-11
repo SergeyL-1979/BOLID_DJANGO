@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     # ====== APP ========
     'webbolid',
 ]
+INSTALLED_APPS += [
+    'widget_tweaks',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

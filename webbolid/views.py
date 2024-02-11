@@ -2,6 +2,7 @@ import base64
 from datetime import datetime
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db.models import Count, F
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
@@ -10,7 +11,7 @@ from django.views import generic
 from django_filters.views import FilterView
 
 from webbolid.filters import PLogDataFilter, PlistFilter
-from webbolid.forms import PlistForm, SearchForm
+from webbolid.forms import PlistForm
 from webbolid.models import Plist, Plogdata
 from webbolid.serializers import PListSerializer, PlistPictureSerializer, PLogDataSerializer
 
@@ -27,6 +28,8 @@ class PlistListFilter(FilterView):
     template_name = 'webbolid/plist_search.html'
     ordering = ['name']
     paginate_by = 5
+
+
 # ==========================================================================
 
 
@@ -75,9 +78,10 @@ class PListUpdateView(generic.UpdateView):
 # ================= ПОИСК В ТАБЛИЦЕ PLOGDATA ============================
 class SearchListView(generic.ListView):
     model = Plogdata
-    template_name = 'webbolid/search_list.html'
+    template_name = 'webbolid/search_data.html'
     context_object_name = 'search'
     ordering = ['devicetime']
+    paginate_by = 8
     # form_class = SearchForm
 
     @method_decorator(cache_page(60 * 1))
@@ -90,15 +94,16 @@ class SearchListView(generic.ListView):
             self.request.GET,
             queryset=queryset).qs.only(
             'timeval', 'event', 'hozorgan',
-            'remark', 'devicetime', 'guid'
+            'remark', 'devicetime', 'doorindex'
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         filters = PLogDataFilter(self.request.GET, queryset=self.get_queryset())
+        queryset = Plogdata.objects.values('hozorgan__name', 'event').annotate(count=Count('event'))
         context['filter'] = filters
 
-        paginator = Paginator(filters.qs, 10)
+        paginator = Paginator(filters.qs, 8)
         page = self.request.GET.get('page')
 
         try:
@@ -109,5 +114,6 @@ class SearchListView(generic.ListView):
             search_results = paginator.page(paginator.num_pages)
 
         context['search'] = search_results
+        context['group'] = queryset
         return context
 # ================================================================================
