@@ -21,7 +21,10 @@ class PlistForm(forms.ModelForm):
     }
 
 
-# class SearchForm(forms.Form):
-#     employee_name = forms.CharField(label='Имя сотрудника', max_length=100)
-#     min_date = forms.DateInput()
-#     max_date = forms.DateInput()
+# class PLogDataSearchForm(forms.Form):
+#     min_datetime = forms.DateTimeField(
+#         label='Начальная дата', required=False, input_formats=['%Y-%m-%d %H:%M:%S'])
+#     max_datetime = forms.DateTimeField(
+#         label='Конечная дата', required=False, input_formats=['%Y-%m-%d %H:%M:%S'])
+#     hozorgan = forms.CharField(label='Фамилия', required=False)
+

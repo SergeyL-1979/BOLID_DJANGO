@@ -82,7 +82,6 @@ class SearchListView(generic.ListView):
     context_object_name = 'search'
     ordering = ['devicetime']
     paginate_by = 8
-    # form_class = SearchForm
 
     @method_decorator(cache_page(60 * 1))
     def dispatch(self, *args, **kwargs):
