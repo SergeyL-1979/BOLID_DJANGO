@@ -162,6 +162,8 @@ REST_FRAMEWORK = {
     ],
 }
 
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,

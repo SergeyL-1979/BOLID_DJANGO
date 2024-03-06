@@ -13,3 +13,4 @@ django-debug-toolbar
 
 django-bootstrap-datepicker-plus
 django-widget-tweaks
+pyTelegramBotAPI
