@@ -261,64 +261,6 @@ class Plist(models.Model):
                              null=True, verbose_name='Должность')
     tabnumber = models.CharField(db_column='TabNumber', max_length=50, db_collation='Cyrillic_General_CI_AS',
                                  blank=True, null=True, verbose_name='Табельный номер')
-    # id = models.IntegerField(db_column='ID', primary_key=True)
-    # status = models.IntegerField(db_column='Status')
-    # birthdate = models.DateTimeField(db_column='BirthDate', blank=True, null=True)
-    # address = models.CharField(db_column='Address', max_length=200, db_collation='Cyrillic_General_CI_AS', blank=True,
-    #                            null=True)
-    # section = models.IntegerField(db_column='Section', blank=True, null=True)
-    # schedule = models.IntegerField(db_column='Schedule', blank=True, null=True)
-    # avto = models.CharField(db_column='Avto', max_length=200, db_collation='Cyrillic_General_CI_AS', blank=True,
-    #                         null=True)
-    # spack = models.IntegerField(db_column='Spack', blank=True, null=True)
-    # config = models.IntegerField(db_column='Config', blank=True, null=True)
-    # grstatus = models.IntegerField(db_column='GrStatus', blank=True, null=True)
-    # changetime = models.DateTimeField(db_column='ChangeTime', blank=True, null=True)
-    # indexforcontactid = models.IntegerField(db_column='IndexForContactId', blank=True,
-    #                                         null=True)
-    # statusrecord = models.IntegerField(db_column='StatusRecord', blank=True, null=True)
-    # patterns_id = models.IntegerField(db_column='Patterns_ID', blank=True, null=True)
-    # id_number_list = models.CharField(db_column='ID_Number_List',
-    #                                   max_length=50, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
-    # weight = models.IntegerField(blank=True, null=True)
-    # delta_weight = models.IntegerField(blank=True, null=True)
-    # autoid = models.IntegerField(db_column='AutoID', blank=True, null=True)
-    # guid_1c = models.CharField(db_column='GUID_1C', max_length=40, db_collation='Cyrillic_General_CI_AS', blank=True,
-    #                            null=True)
-    # status_list = models.IntegerField(blank=True, null=True)
-    # emaillist = models.CharField(db_column='EmailList', max_length=200, db_collation='Cyrillic_General_CI_AS',
-    #                              blank=True, null=True)
-    # fielddelete = models.IntegerField(blank=True, null=True)
-    # blacklist = models.IntegerField(db_column='BlackList', blank=True, null=True)
-    # inn = models.CharField(db_column='INN', max_length=40, db_collation='Cyrillic_General_CI_AS', blank=True,
-    #                        null=True)
-    # reasontoblacklist = models.CharField(db_column='ReasonToBlackList', max_length=200,
-    #                                      db_collation='Cyrillic_General_CI_AS', blank=True,
-    #                                      null=True)
-    # typedocum = models.IntegerField(db_column='TypeDocum', blank=True, null=True)
-    # sexguest = models.IntegerField(db_column='SexGuest', blank=True, null=True)
-    # dokumseries = models.CharField(db_column='DokumSeries', max_length=50, db_collation='Cyrillic_General_CI_AS',
-    #                                blank=True, null=True)
-    # dokumnumber = models.CharField(db_column='DokumNumber', max_length=50, db_collation='Cyrillic_General_CI_AS',
-    #                                blank=True, null=True)
-    # datedocument = models.DateTimeField(db_column='DateDocument', blank=True, null=True)
-    # kodpodr = models.CharField(db_column='KodPodr', max_length=50, db_collation='Cyrillic_General_CI_AS', blank=True,
-    #                            null=True)
-    # kem = models.CharField(db_column='Kem', max_length=200, db_collation='Cyrillic_General_CI_AS', blank=True,
-    #                        null=True)
-    # datedocumentend = models.DateTimeField(db_column='DateDocumentEnd', blank=True,
-    #                                        null=True)
-    # birthplace = models.CharField(max_length=200, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
-    # datetimeinarchive = models.DateTimeField(db_column='DateTimeInArchive', blank=True,
-    #                                          null=True)
-    # firetolist = models.CharField(db_column='FireToList', max_length=200, db_collation='Cyrillic_General_CI_AS',
-    #                               blank=True, null=True)
-    # idscan = models.IntegerField(db_column='IDSCAN', blank=True, null=True)
-    # idgroupexit = models.IntegerField(db_column='IDGROUPEXIT', blank=True, null=True)
-    # operatorid = models.IntegerField(db_column='OperatorID', blank=True, null=True)
-    # workstation = models.CharField(db_column='Workstation', max_length=50, db_collation='Cyrillic_General_CI_AS',
-    #                                blank=True, null=True)
-    # roomid = models.IntegerField(db_column='RoomID', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -343,28 +285,6 @@ class Plogdata(models.Model):
     guid = models.CharField(db_column='GUID', primary_key=True, max_length=36)
     doorindex = models.ForeignKey(Acesspoint, models.DO_NOTHING, db_column='DoorIndex', blank=True, null=True)
 
-    # numcom = models.IntegerField(db_column='NumCom', blank=True, null=True)
-    # idcomp = models.IntegerField(db_column='IDComp', blank=True, null=True)
-    # par1 = models.IntegerField(db_column='Par1', blank=True, null=True)
-    # par2 = models.IntegerField(db_column='Par2', blank=True, null=True)
-    # par3 = models.IntegerField(db_column='Par3', blank=True, null=True)
-    # par4 = models.IntegerField(db_column='Par4', blank=True, null=True)
-    # indexkey = models.IntegerField(db_column='IndexKey', blank=True, null=True)
-    # razdindex = models.IntegerField(db_column='RazdIndex', blank=True, null=True)
-    # hozguest = models.IntegerField(db_column='HozGuest', blank=True, null=True)
-    # doorindex = models.IntegerField(db_column='DoorIndex', blank=True, null=True)
-    # mode = models.IntegerField(db_column='Mode', blank=True, null=True)
-    # vevent = models.IntegerField(db_column='VEvent', blank=True, null=True)
-    # zreserv = models.IntegerField(db_column='ZReserv', blank=True, null=True)
-    # zoneindex = models.IntegerField(db_column='ZoneIndex', blank=True, null=True)
-    # readerindex = models.IntegerField(db_column='ReaderIndex', blank=True, null=True)
-    # sign = models.IntegerField(db_column='Sign', blank=True, null=True)
-    # tprzdindex = models.IntegerField(db_column='tpRzdIndex', blank=True, null=True)
-    # tppar4 = models.IntegerField(db_column='tpPar4', blank=True, null=True)
-    # indexzone = models.IntegerField(db_column='IndexZone', blank=True, null=True)
-    # tpindex = models.IntegerField(db_column='tpIndex', blank=True, null=True)
-    # idcomment = models.IntegerField(db_column='IdComment', blank=True, null=True)
-
     class Meta:
         managed = False
         db_table = 'pLogData'
@@ -376,31 +296,31 @@ class Plogdata(models.Model):
 
 class Pmark(models.Model):
     # id = models.IntegerField(db_column='ID', primary_key=True)
-    gtype = models.IntegerField(db_column='Gtype')
-    gtypecodeadd = models.IntegerField(db_column='GTypeCodeAdd', blank=True, null=True)
-    config = models.IntegerField(db_column='Config')
+    # gtype = models.IntegerField(db_column='Gtype')
+    # gtypecodeadd = models.IntegerField(db_column='GTypeCodeAdd', blank=True, null=True)
+    # config = models.IntegerField(db_column='Config')
     codep = models.CharField(db_column='CodeP', max_length=50, db_collation='Cyrillic_General_CI_AS', blank=True,
                              null=True)
     codepadd = models.CharField(db_column='CodePAdd', max_length=50, db_collation='Cyrillic_General_CI_AS', blank=True,
                                 null=True)
     status = models.IntegerField(db_column='Status', blank=True, null=True)
-    owner = models.IntegerField(db_column='Owner')
+    owner = models.ForeignKey(Plist, models.DO_NOTHING, db_column='Owner')
     ownername = models.CharField(db_column='OwnerName', max_length=30, db_collation='Cyrillic_General_CI_AS',
                                  blank=True, null=True)
     grstatus = models.IntegerField(db_column='GrStatus', blank=True, null=True)
-    groupid = models.IntegerField(db_column='GroupID')
+    groupid = models.ForeignKey(Groups, models.DO_NOTHING, db_column='GroupID')
     start = models.DateTimeField(db_column='Start', blank=True, null=True)
     finish = models.DateTimeField(db_column='Finish', blank=True, null=True)
-    fingertemplate = models.CharField(max_length=2500, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
-    indexforcontactid = models.IntegerField(db_column='IndexForContactId', blank=True,
-                                            null=True)
-    comment = models.CharField(db_column='Comment', max_length=250, db_collation='Cyrillic_General_CI_AS', blank=True,
-                               null=True)
-    login = models.CharField(db_column='Login', max_length=100, db_collation='Cyrillic_General_CI_AS', blank=True,
-                             null=True)
-    operatorid = models.IntegerField(db_column='OperatorID', blank=True, null=True)
-    workstation = models.CharField(db_column='Workstation', max_length=50, db_collation='Cyrillic_General_CI_AS',
-                                   blank=True, null=True)
+    # fingertemplate = models.CharField(max_length=2500, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
+    # indexforcontactid = models.IntegerField(db_column='IndexForContactId', blank=True,
+    #                                         null=True)
+    # comment = models.CharField(db_column='Comment', max_length=250, db_collation='Cyrillic_General_CI_AS', blank=True,
+    #                            null=True)
+    # login = models.CharField(db_column='Login', max_length=100, db_collation='Cyrillic_General_CI_AS', blank=True,
+    #                          null=True)
+    # operatorid = models.IntegerField(db_column='OperatorID', blank=True, null=True)
+    # workstation = models.CharField(db_column='Workstation', max_length=50, db_collation='Cyrillic_General_CI_AS',
+    #                                blank=True, null=True)
 
     class Meta:
         managed = False
