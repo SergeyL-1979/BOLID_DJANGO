@@ -19,7 +19,7 @@ from django.views.decorators.cache import cache_page
 from django.views import generic
 from django_filters.views import FilterView
 
-from webbolid.filters import PLogDataFilter, PlistFilter, PlogdataFilterWorkTime
+from webbolid.filters import PLogDataFilter, PlistFilter
 from webbolid.forms import PlistForm
 from webbolid.models import Plist, Plogdata, Pmark
 from webbolid.serializers import PListSerializer, PlistPictureSerializer, PLogDataSerializer
