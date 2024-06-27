@@ -3,7 +3,9 @@ from rest_framework import routers
 
 from webbolid.views import (
     PListView, PListDetailView,
-    PListUpdateView, SearchListView, PlistListFilter, )
+    PListUpdateView, SearchListView, PlistListFilter,
+)
+from webbolid import views
 
 # from webbolid.views import PListViewSet, PlistPictureView, PlistDetailView, PLogDataViewSet, \
 #     PListSearchView, PListView, PListDetailView

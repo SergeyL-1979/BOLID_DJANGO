@@ -1,20 +1,30 @@
 import base64
+import binascii
+import logging
 from datetime import datetime
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.db.models import Count, F
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.db import connection
+from django.db.models import Count, F, Value, CharField, IntegerField, Sum, DateField, Case, When
+
+from django.db.models.functions import Reverse, Cast
+from django.db.models.functions import Substr
+from django.db.models.functions import Length
+from django.db.models import Func
+from django.db.models import OuterRef, Subquery
+
+
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views import generic
 from django_filters.views import FilterView
 
-from webbolid.filters import PLogDataFilter, PlistFilter
+from webbolid.filters import PLogDataFilter, PlistFilter, PlogdataFilterWorkTime
 from webbolid.forms import PlistForm
-from webbolid.models import Plist, Plogdata
+from webbolid.models import Plist, Plogdata, Pmark
 from webbolid.serializers import PListSerializer, PlistPictureSerializer, PLogDataSerializer
 
+logger = logging.getLogger(__name__)
 
 # ======= Добавлен код для поиска на странице по имени ==================
 # def plist_list(request):
@@ -116,3 +126,6 @@ class SearchListView(generic.ListView):
         context['group'] = queryset
         return context
 # ================================================================================
+
+
+# ========================= ПОДСЧЕТ ВРЕМЕНИ РАБОТЫ ===============================
