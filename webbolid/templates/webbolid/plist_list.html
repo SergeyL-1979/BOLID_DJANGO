@@ -1,19 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список записей</title>
-    <!-- Подключение стилей (замените на свои стили или Bootstrap) -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
+{% extends "base.html" %}
 
+{% block content %}
+    <div class="search">
+        <a href="{% url 'search_results' %}" class="search-button">Перейти к поиску</a>
+    
+        <div class="search-form">
+            <form action="{% url 'search_list' %}" method="get" class="search-form">
+                {{ filter.form.as_ul }}
+                <li><input type="submit" class="btn btn-success" value="Search"></li>
+            </form>
+        </div>
+    
+        <div class="container">
+            {% for list in object_list %}
+            <p><a href="{% url 'list_detail' list.pk %}">{{ list.name }} {{ list.firstname }} {{ list.midname }}</a></p>
+            {% endfor %}
+        </div>
+    
+    </div>
+
+    <style>
+        form select, form input:not([type="checkbox"]), form textarea {
+          width: auto;
+        }
         .container {
             max-width: 800px;
             margin: 20px auto;
@@ -80,31 +89,10 @@
             background-color: #0056b3;
         }
     </style>
-</head>
-<body>
-
-{% block content %}
-<div class="container">
-    <a href="{% url 'search_results' %}" class="search-button">Перейти к поиску</a>
-
-    <div class="container">
-        <form action="{% url 'search_list' %}" method="get" class="search-form">
-            {{ filter.form.as_ul }}
-            <li><input type="submit" class="btn btn-success" value="Search"></li>
-        </form>
-    </div>
-
-    <div class="container">
-        {% for list in object_list %}
-        <p><a href="{% url 'list_detail' list.pk %}">{{ list.name }} {{ list.firstname }} {{ list.midname }}</a></p>
-        {% endfor %}
-    </div>
-
-</div>
-
+    
+{% include "paginations.html" %}
+    
 {% endblock content%}
 
-{% include "paginations.html" %}
 
-</body>
-</html>
+

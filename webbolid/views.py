@@ -1,8 +1,9 @@
 import base64
 from datetime import datetime
 
+
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.db.models import Count, F
+from django.db.models import Count, F, Avg
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
@@ -12,7 +13,7 @@ from django_filters.views import FilterView
 
 from webbolid.filters import PLogDataFilter, PlistFilter
 from webbolid.forms import PlistForm
-from webbolid.models import Plist, Plogdata
+from webbolid.models import Plist, Plogdata, Pmark
 from webbolid.serializers import PListSerializer, PlistPictureSerializer, PLogDataSerializer
 
 
@@ -28,8 +29,6 @@ class PlistListFilter(FilterView):
     template_name = 'webbolid/plist_search.html'
     ordering = ['name']
     paginate_by = 5
-
-
 # ==========================================================================
 
 
@@ -116,3 +115,18 @@ class SearchListView(generic.ListView):
         context['group'] = queryset
         return context
 # ================================================================================
+
+
+# ======== ввывод кода карты ========
+class PMarkView(generic.ListView):
+    model = Pmark
+    context_object_name = 'code'
+    template_name = 'webbolid/encode_code.html'
+    paginate_by = 5
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        code = Pmark.objects.values('codep').annotate(count=Count('owner'))
+        
+        context['cards'] = code
+        return context

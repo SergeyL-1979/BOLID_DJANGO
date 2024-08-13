@@ -7,7 +7,7 @@ class PLogDataFilter(django_filters.FilterSet):
     min_datetime = django_filters.DateTimeFilter(
         lookup_expr='gte', field_name='timeval', label='Начальная дата:')
     max_datetime = django_filters.DateTimeFilter(
-        lookup_expr='lte', field_name='devicetime', label='Конечная дата:', )
+        lookup_expr='lte', field_name='devicetime', label='Конечная дата:')
     hozorgan = django_filters.CharFilter(
         field_name='hozorgan__name', lookup_expr='icontains', label='Фамилия:')
 

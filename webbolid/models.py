@@ -384,23 +384,23 @@ class Pmark(models.Model):
     codepadd = models.CharField(db_column='CodePAdd', max_length=50, db_collation='Cyrillic_General_CI_AS', blank=True,
                                 null=True)
     status = models.IntegerField(db_column='Status', blank=True, null=True)
-    owner = models.IntegerField(db_column='Owner')
+    owner = models.ForeignKey(Plist, models.DO_NOTHING, db_column='Owner')
     ownername = models.CharField(db_column='OwnerName', max_length=30, db_collation='Cyrillic_General_CI_AS',
                                  blank=True, null=True)
-    grstatus = models.IntegerField(db_column='GrStatus', blank=True, null=True)
-    groupid = models.IntegerField(db_column='GroupID')
+    # grstatus = models.IntegerField(db_column='GrStatus', blank=True, null=True)
+    groupid = models.ForeignKey(Groups, models.DO_NOTHING, db_column='GroupID')
     start = models.DateTimeField(db_column='Start', blank=True, null=True)
     finish = models.DateTimeField(db_column='Finish', blank=True, null=True)
-    fingertemplate = models.CharField(max_length=2500, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
-    indexforcontactid = models.IntegerField(db_column='IndexForContactId', blank=True,
-                                            null=True)
-    comment = models.CharField(db_column='Comment', max_length=250, db_collation='Cyrillic_General_CI_AS', blank=True,
-                               null=True)
-    login = models.CharField(db_column='Login', max_length=100, db_collation='Cyrillic_General_CI_AS', blank=True,
-                             null=True)
-    operatorid = models.IntegerField(db_column='OperatorID', blank=True, null=True)
-    workstation = models.CharField(db_column='Workstation', max_length=50, db_collation='Cyrillic_General_CI_AS',
-                                   blank=True, null=True)
+    # fingertemplate = models.CharField(max_length=2500, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
+    # indexforcontactid = models.IntegerField(db_column='IndexForContactId', blank=True,
+    #                                         null=True)
+    # comment = models.CharField(db_column='Comment', max_length=250, db_collation='Cyrillic_General_CI_AS', blank=True,
+    #                            null=True)
+    # login = models.CharField(db_column='Login', max_length=100, db_collation='Cyrillic_General_CI_AS', blank=True,
+    #                          null=True)
+    # operatorid = models.IntegerField(db_column='OperatorID', blank=True, null=True)
+    # workstation = models.CharField(db_column='Workstation', max_length=50, db_collation='Cyrillic_General_CI_AS',
+    #                                blank=True, null=True)
 
     class Meta:
         managed = False

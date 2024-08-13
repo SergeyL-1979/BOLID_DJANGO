@@ -1,11 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список записей</title>
-    <!-- Подключение стилей (замените на свои стили или Bootstrap) -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="col-lg-6 col-md-8">
+    <ul>
+        {% for obj in object_list %}
+            <li><a href="{% url 'list_detail' obj.pk %}">{{ obj.name }} {{ obj.firstname }} {{ obj.midname }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <div class="button-group">
+       <p> <button class="btn btn-primary" onclick="history.back();"> НАЗАД </button>
+       <button class="btn btn-primary" onclick="window.location.href='/'"> ГЛАВНАЯ </button> </p>
+    </div>
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&page=1">&laquo; first</a>
+            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+{#            <a href="?page={{ search.next_page_number }}">next</a>#}
+{#            <a href="?page={{ search.paginator.num_pages }}">last &raquo;</a>#}
+{#            <a href="?{{ request.GET.urlencode }}&page={{ search.next_page_number }}">next</a>#}
+{#            <a href="?{{ request.GET.urlencode }}&page={{ search.paginator.num_pages }}">last &raquo;</a>#}
+            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&page={{ page_obj.next_page_number }}">next</a>
+            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,7 +45,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 80%;
             margin: 20px auto;
             background-color: #fff;
             padding: 20px;
@@ -40,8 +70,8 @@
         }
 
         .pagination {
-            display: flex;
-            justify-content: center;
+            display: inline-block;
+            {#justify-content: center;#}
             margin-top: 20px;
         }
 
@@ -80,50 +110,5 @@
             background-color: #0056b3;
         }
     </style>
-</head>
-<body>
-
-{% block content %}
-
-<div class="col-lg-6 col-md-8">
-    <ul>
-        {% for obj in object_list %}
-            <li><a href="{% url 'list_detail' obj.pk %}">{{ obj.name }} {{ obj.firstname }} {{ obj.midname }}</a></li>
-        {% endfor %}
-    </ul>
-
-    <div class="button-group">
-       <p> <button class="btn btn-primary" onclick="history.back();"> НАЗАД </button>
-       <button class="btn btn-primary" onclick="window.location.href='/'"> ГЛАВНАЯ </button> </p>
-    </div>
-</div>
-
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-{#            <a href="?page=1">&laquo; first</a>#}
-{#            <a href="?page={{ search.previous_page_number }}">previous</a>#}
-{#            <a href="?{{ request.GET.urlencode }}&page=1">&laquo; first</a>#}
-{#            <a href="?{{ request.GET.urlencode }}&page={{ search.previous_page_number }}">previous</a>#}
-            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&page=1">&laquo; first</a>
-            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-{#            <a href="?page={{ search.next_page_number }}">next</a>#}
-{#            <a href="?page={{ search.paginator.num_pages }}">last &raquo;</a>#}
-{#            <a href="?{{ request.GET.urlencode }}&page={{ search.next_page_number }}">next</a>#}
-{#            <a href="?{{ request.GET.urlencode }}&page={{ search.paginator.num_pages }}">last &raquo;</a>#}
-            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&page={{ page_obj.next_page_number }}">next</a>
-            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
 {% endblock content %}
 
-</body>
-</html>

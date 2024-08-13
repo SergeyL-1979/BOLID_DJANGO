@@ -1,8 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="center-block">
+    <h2>{{ list_detail.name }} {{ list_detail.firstname }} {{ list_detail.midname }}</h2>
+
+    {% if images %}
+        {% for image_entry in images %}
+            <img src="data:image/bmp;base64,{{ image_entry.image_base64 }}" alt="Image" width="150" height="200">
+        {% endfor %}
+    {% else %}
+        <strong>ФОТО ОТСУСТВУЕТ В БАЗЕ</strong>
+    {% endif %}
+
+    <!-- Остальные поля модели -->
+    <p><strong>Дата выдачи:</strong> {{ list_detail.workphone }}</p>
+    <p><strong>Дата окончания:</strong> {{ list_detail.homephone }}</p>
+    <p><strong>Компания:</strong> {{ list_detail.company }}</p>
+    <p><strong>Должность:</strong> {{ list_detail.post }}</p>
+    <p><strong>Табельный номер:</strong> {{ list_detail.tabnumber }}</p>
+
+<div class="button-group">
+{#    <a class="btn btn-primary" href="{% url 'list_detail' list_detail.pk %}">Редактирование</a>#}
+    <button class="btn btn-primary" onclick="window.location.href='{% url 'list_update' list_detail.pk %}'">Редактирование</button>
+    <button class="btn btn-primary" onclick="window.history.back()"> Назад </button>
+</div>
+</div>
+
     <style>
     .center-block {
         text-align: center;
@@ -31,36 +55,5 @@
         margin-right: 10px;
     }
 </style>
-</head>
-<body>
-{% block content %}
-
-<div class="center-block">
-    <h2>{{ list_detail.name }} {{ list_detail.firstname }} {{ list_detail.midname }}</h2>
-
-    {% if images %}
-        {% for image_entry in images %}
-            <img src="data:image/bmp;base64,{{ image_entry.image_base64 }}" alt="Image" width="150" height="200">
-        {% endfor %}
-    {% else %}
-        <strong>ФОТО ОТСУСТВУЕТ В БАЗЕ</strong>
-    {% endif %}
-
-    <!-- Остальные поля модели -->
-    <p><strong>Дата выдачи:</strong> {{ list_detail.workphone }}</p>
-    <p><strong>Дата окончания:</strong> {{ list_detail.homephone }}</p>
-    <p><strong>Компания:</strong> {{ list_detail.company }}</p>
-    <p><strong>Должность:</strong> {{ list_detail.post }}</p>
-    <p><strong>Табельный номер:</strong> {{ list_detail.tabnumber }}</p>
-
-<div class="button-group">
-{#    <a class="btn btn-primary" href="{% url 'list_detail' list_detail.pk %}">Редактирование</a>#}
-    <button class="btn btn-primary" onclick="window.location.href='{% url 'list_update' list_detail.pk %}'">Редактирование</button>
-    <button class="btn btn-primary" onclick="window.history.back()"> Назад </button>
-</div>
-</div>
-
-
 {% endblock content %}
-</body>
-</html>
+
