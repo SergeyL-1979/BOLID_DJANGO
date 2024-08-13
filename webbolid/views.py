@@ -82,9 +82,9 @@ class SearchListView(generic.ListView):
     ordering = ['devicetime']
     paginate_by = 8
 
-    @method_decorator(cache_page(60 * 1))
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+    # @method_decorator(cache_page(60 * 1))
+    # def dispatch(self, *args, **kwargs):
+    #     return super().dispatch(*args, **kwargs)
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -101,7 +101,7 @@ class SearchListView(generic.ListView):
         queryset = Plogdata.objects.values('hozorgan__name', 'event').annotate(count=Count('event'))
         context['filter'] = filters
 
-        paginator = Paginator(filters.qs, 8)
+        paginator = Paginator(filters.qs, 6)
         page = self.request.GET.get('page')
 
         try:
