@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
     <div class="search">
@@ -6,11 +7,11 @@
     
         <div class="search-form">
             <form action="{% url 'search_list' %}" method="get" class="search-form">
-                {{ filter.form.as_ul }}
-                <li><input type="submit" class="btn btn-success" value="Search"></li>
+                {{ filter.form|crispy }}
+                <input type="submit" class="btn btn-success" value="Search">
             </form>
         </div>
-    
+
         <div class="container">
             {% for list in object_list %}
             <p><a href="{% url 'list_detail' list.pk %}">{{ list.name }} {{ list.firstname }} {{ list.midname }}</a></p>

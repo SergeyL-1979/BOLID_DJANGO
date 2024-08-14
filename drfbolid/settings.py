@@ -45,10 +45,18 @@ INSTALLED_APPS = [
     'django_filters',
     # ====== APP ========
     'webbolid',
+
+    # ========= django-crispy-forms and crispy-bootstrap4 ============
+    'crispy_forms',
+    "crispy_bootstrap4",
 ]
 INSTALLED_APPS += [
     'widget_tweaks',
 ]
+
+# ========= ADD crispy-bootstrap4 ============
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

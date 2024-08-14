@@ -1,102 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="robots" content="NONE,NOARCHIVE">
+    
+        <title>Api Root – Django REST framework</title>
+    
+        <link rel="stylesheet" type="text/css" href="/static/rest_framework/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/static/rest_framework/css/bootstrap-tweaks.css">
+        <link rel="stylesheet" type="text/css" href="/static/rest_framework/css/prettify.css">
+        <link rel="stylesheet" type="text/css" href="/static/rest_framework/css/default.css">
+    </head>
 
 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="robots" content="NONE,NOARCHIVE">
-
-    <title>Api Root – Django REST framework</title>
-
-    <link rel="stylesheet" type="text/css" href="/static/rest_framework/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/rest_framework/css/bootstrap-tweaks.css">
-
-    <link rel="stylesheet" type="text/css" href="/static/rest_framework/css/prettify.css">
-    <link rel="stylesheet" type="text/css" href="/static/rest_framework/css/default.css">
-
-</head>
-
-
-<body class="">
-
-<div class="wrapper">
-
-    <div class="navbar navbar-static-top navbar-inverse" role="navigation" aria-label="navbar">
-        <div class="container">
-            <span>
-
-                <a class="navbar-brand" rel="nofollow" href="https://www.django-rest-framework.org/">
-                    Django REST framework
-                </a>
-
-            </span>
-            <ul class="nav navbar-nav pull-right">
-
-
-                <li><a href="/api-auth/login/?next=/">Log in</a></li>
-
-
-            </ul>
-        </div>
-    </div>
-
-
-    <div class="container">
-
-        <ul class="breadcrumb">
-
-            <li class="active"><a href="/">Api Root</a></li>
-            <li class="active"><a href="/list/">P List List</a></li>
-
-        </ul>
-
-        <!-- Content -->
-        <div id="content" role="main" aria-label="content">
-
-            <div class="region" aria-label="request form">
-
-            </div>
-
-            <div class="content-main" role="main" aria-label="main content">
-                <div class="page-header">
-                    <h1>Api Root</h1>
-                </div>
-                <div style="float:left">
-
-                    <p>The default basic root view for DefaultRouter</p>
-
-                </div>
-
-
-                <div class="request-info" style="clear: both" aria-label="request info">
-                    <pre class="prettyprint"><b><span class="pln">GET</span></b><span class="pln"> </span><span
-                            class="pun">/</span></pre>
-                </div>
+    <body class="">
+        <div class="wrapper">
+            <div class="navbar navbar-static-top navbar-inverse" role="navigation" aria-label="navbar">
                 <div class="container">
-                    {% block content %} {% endblock content %}
+                    <span>
+                        <a class="navbar-brand" rel="nofollow" href="/">REST API BOLID</a>
+                    </span>
                 </div>
             </div>
-        </div><!-- /.content -->
-    </div><!-- /.container -->
-</div><!-- ./wrapper -->
-
-
-<script>
-    window.drf = {
-        csrfHeaderName: "X-CSRFTOKEN",
-        csrfToken: "VN5dQA2Rl4b4IBXEfEEtL3wyMK7klqAxsdwmihcl56XC3aBn5xt39PLjm3sKuOAO"
-    };
-</script>
-<script src="/static/rest_framework/js/jquery-3.7.1.min.js"></script>
-<script src="/static/rest_framework/js/ajax-form.js"></script>
-<script src="/static/rest_framework/js/csrf.js"></script>
-<script src="/static/rest_framework/js/bootstrap.min.js"></script>
-<script src="/static/rest_framework/js/prettify-min.js"></script>
-<script src="/static/rest_framework/js/default.js"></script>
-<script>
-    $(document).ready(function () {
-        $('form').ajaxForm();
-    });
-</script>
-</body>
+        
+        
+            <div class="container">
+                <ul class="breadcrumb">
+                    <li class="active"><a href="/">Api Root</a></li>
+                </ul>
+        
+                <!-- Content -->
+                <div id="content" role="main" aria-label="content">
+                    <div class="content-main" role="main" aria-label="main content">
+                        <div class="">
+                            {% block content %} {% endblock content %}
+                        </div>
+                    </div>
+                </div><!-- /.content -->
+            </div><!-- /.container -->
+        </div><!-- ./wrapper -->
+        
+        <script>
+            window.drf = {
+                csrfHeaderName: "X-CSRFTOKEN",
+                csrfToken: "VN5dQA2Rl4b4IBXEfEEtL3wyMK7klqAxsdwmihcl56XC3aBn5xt39PLjm3sKuOAO"
+            };
+        </script>
+        <script src="/static/rest_framework/js/jquery-3.7.1.min.js"></script>
+        <script src="/static/rest_framework/js/ajax-form.js"></script>
+        <script src="/static/rest_framework/js/csrf.js"></script>
+        <script src="/static/rest_framework/js/bootstrap.min.js"></script>
+        <script src="/static/rest_framework/js/prettify-min.js"></script>
+        <script src="/static/rest_framework/js/default.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('form').ajaxForm();
+            });
+        </script>
+    </body>
 </html>
