@@ -353,7 +353,7 @@ class Plogdata(models.Model):
     # razdindex = models.IntegerField(db_column='RazdIndex', blank=True, null=True)
     # hozguest = models.IntegerField(db_column='HozGuest', blank=True, null=True)
     # doorindex = models.IntegerField(db_column='DoorIndex', blank=True, null=True)
-    # mode = models.IntegerField(db_column='Mode', blank=True, null=True)
+    mode = models.IntegerField(db_column='Mode', blank=True, null=True)
     # vevent = models.IntegerField(db_column='VEvent', blank=True, null=True)
     # zreserv = models.IntegerField(db_column='ZReserv', blank=True, null=True)
     # zoneindex = models.IntegerField(db_column='ZoneIndex', blank=True, null=True)

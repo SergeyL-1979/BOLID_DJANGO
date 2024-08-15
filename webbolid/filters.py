@@ -16,6 +16,22 @@ class PLogDataFilter(django_filters.FilterSet):
         fields = ['hozorgan', 'min_datetime', 'max_datetime', 'event']
 
 
+# ========= УРВ ======================
+class TimeFilter(django_filters.FilterSet):
+    # first_time = django_filters.DateTimeFilter(
+    #     lookup_expr='gte', field_name='timeval', label='Начальная дата:')
+    # end_time = django_filters.DateTimeFilter(
+    #     lookup_expr='lte', field_name='timeval', label='Конечная дата:')
+    first_exit = django_filters.CharFilter(
+        field_name='plogdata__mode', lookup_expr='icontains', label='Режим:')
+    end_exit = django_filters.CharFilter(
+        field_name='plogdata__mode', lookup_expr='icontains', label='Режим:')
+
+    class Meta:
+        model = Plogdata
+        fields = ['first_exit', 'end_exit', 'mode']
+
+
 # ============ ГОТОВЫЙ ПОИСК СОТРУДНИКОВ ================================
 class PlistFilter(django_filters.FilterSet):
     class Meta:
