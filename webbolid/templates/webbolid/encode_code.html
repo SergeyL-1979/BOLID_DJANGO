@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+    {% for card in codes %}
+        <h2>{{ card.owner }}</h2>
+        <h2>{{ card.converted_code  }}</h2>
+    {% endfor %}
+    
+{% include "paginations.html" %}  
+{% endblock content %}

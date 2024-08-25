@@ -1,6 +1,6 @@
 import base64
 from datetime import datetime
-
+from idlelib.iomenu import errors
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Count, F, Avg
@@ -120,13 +120,41 @@ class SearchListView(generic.ListView):
 # ======== ввывод кода карты ========
 class PMarkView(generic.ListView):
     model = Pmark
-    context_object_name = 'code'
+    context_object_name = 'codes'
     template_name = 'webbolid/encode_code.html'
     paginate_by = 5
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data()
-        code = Pmark.objects.values('codep').annotate(count=Count('owner'))
-        
-        context['cards'] = code
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        # Обработка каждого объекта и конвертация кода
+        for obj in queryset:
+            raw_value = obj.codep
+
+            try:
+                # Конвертируем строку в байты с кодировкой cp1251
+                byte_value = raw_value.encode('Windows-1251', errors='ignore')
+                # byte_value = raw_value.encode('cp1251', errors='ignore')
+                # Отбрасываем первый байт
+                modified_bytes = byte_value[1:]
+                # Заменяем пары байт FE01 на 00
+                modified_bytes = modified_bytes.replace(b'\xFE\x01', b'\x00')
+                # Переворачиваем байты
+                reversed_bytes = modified_bytes[::-1]
+                reversed_bytes = reversed_bytes.replace(b'\x03\xFE', b'\x20')
+                # Преобразуем в шестнадцатеричное представление
+                hex_representation = reversed_bytes.hex().upper()
+
+            except Exception as e:
+                hex_representation = f"Ошибка преобразования: {str(e)}"
+
+            # Сохраняем преобразованное значение в объекте
+            obj.converted_code = hex_representation
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Передаем список с преобразованными кодами в контекст
+        context['codes'] = self.get_queryset()
         return context
