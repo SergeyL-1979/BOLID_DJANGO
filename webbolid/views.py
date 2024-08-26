@@ -146,3 +146,16 @@ class PMarkView(generic.ListView):
         # Передаем список с преобразованными кодами в контекст
         context['codes'] = self.get_queryset()
         return context
+
+
+# =========== УЧЕТ РАБОЧЕГО ВРЕМЕНИ =====================
+class WTAView(generic.ListView):
+    model = Plogdata
+    context_object_name = 'worktime'
+    template_name = 'webbolid/wta.html'
+    # paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['worktime'] = Plogdata.objects.filter(mode=1, event=32).order_by('devicetime')
+        return context
