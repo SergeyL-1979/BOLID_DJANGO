@@ -1,11 +1,12 @@
 import base64
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.db.models import Count
+from django.db.models import Count, Sum, Case, When, F, ExpressionWrapper, fields
 from django.views import generic
 from django_filters.views import FilterView
+from django.db.models.functions import TruncDay, TruncMonth
 
-from webbolid.filters import PLogDataFilter, PlistFilter
+from webbolid.filters import PLogDataFilter, PlistFilter, TimeFilter
 from webbolid.forms import PlistForm
 from webbolid.models import Plist, Plogdata, Pmark
 
@@ -153,9 +154,31 @@ class WTAView(generic.ListView):
     model = Plogdata
     context_object_name = 'worktime'
     template_name = 'webbolid/wta.html'
-    # paginate_by = 10
+
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(event=32)
+        return TimeFilter(
+            self.request.GET,
+            queryset=queryset).qs.only(
+            'timeval', 'event', 'hozorgan',
+            'mode', )
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['worktime'] = Plogdata.objects.filter(mode=1, event=32).order_by('devicetime')
+        filterstime = TimeFilter(self.request.GET, queryset=self.get_queryset())
+        # queryset = Plogdata.objects.values('mode').annotate(count=Count('event')).filter(event=32)
+        context['filter'] = filterstime
+
+        paginator = Paginator(filterstime.qs, 2)
+        pages = self.request.GET.get('pages')
+        try:
+            search_results = paginator.page(pages)
+        except PageNotAnInteger:
+            search_results = paginator.page(1)
+        except EmptyPage:
+            search_results = paginator.page(paginator.num_pages)
+
+        context['search'] = search_results
+        # context['group'] = queryset
         return context
+

@@ -25,7 +25,9 @@ urlpatterns = [
     # path('plogdata/', PLogDataListView.as_view(), name='plogdata_list'),
 
     # ======== ввывод кода карты ========
-    path('coding/mark/', views.PMarkView.as_view(), name='encode')
+    path('coding/mark/', views.PMarkView.as_view(), name='encode'),
+
+    path('wta/', views.WTAView.as_view(), name='wta'),
 
     # ========  DRF  ========
     # path('p-list/<int:pk>/', PlistDetailView.as_view(), name='plist_detail'),

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form method="get" class="search-form">
+        {{ filter.form|crispy }}
+        <button type="submit" class="search-button">Search</button>
+        <button type="button" class="search-button" onclick="window.location.href='/'"> Назад </button>
+    </form>
+    
+        <div class="search-results">
+        {% for item in search %}
+           <div class="result-item">
+                <p>{{ item.hozorgan }}</p>
+                <p>{{ item.devicetime|date:'d F Y G:i' }}</p>
+                <p>{{ item.event }}</p>
+                <p>{{ item.doorindex.name }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="pagination">
+        <span class="step-links">
+            {% if search.has_previous %}
+                <a href="?{% for key, value in request.GET.items %}{% if key != 'pages' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&pages=1">&laquo; first</a>
+                <a href="?{% for key, value in request.GET.items %}{% if key != 'pages' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&pages={{ search.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ search.number }} of {{ search.paginator.num_pages }}.
+            </span>
+    
+            {% if search.has_next %}
+                <a href="?{% for key, value in request.GET.items %}{% if key != 'pages' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&pages={{ search.next_page_number }}">next</a>
+                <a href="?{% for key, value in request.GET.items %}{% if key != 'pages' %}{{ key }}={{ value }}{% if not forloop.last %}&{% endif %}{% endif %}{% endfor %}&pages={{ search.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    
+{% endblock content %}
+

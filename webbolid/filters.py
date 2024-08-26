@@ -18,18 +18,20 @@ class PLogDataFilter(django_filters.FilterSet):
 
 # ========= УРВ ======================
 class TimeFilter(django_filters.FilterSet):
-    # first_time = django_filters.DateTimeFilter(
-    #     lookup_expr='gte', field_name='timeval', label='Начальная дата:')
-    # end_time = django_filters.DateTimeFilter(
-    #     lookup_expr='lte', field_name='timeval', label='Конечная дата:')
-    first_exit = django_filters.CharFilter(
-        field_name='plogdata__mode', lookup_expr='icontains', label='Режим:')
-    end_exit = django_filters.CharFilter(
-        field_name='plogdata__mode', lookup_expr='icontains', label='Режим:')
+    hozorgan = django_filters.CharFilter(
+        field_name='hozorgan__name', lookup_expr='icontains', label='Фамилия:')
+    first_exit = django_filters.DateTimeFilter(
+        lookup_expr='gte', field_name='timeval', label='Начальная дата:')
+    end_exit = django_filters.DateTimeFilter(
+        lookup_expr='lte', field_name='timeval', label='Конечная дата:')
+    # first_exit = django_filters.CharFilter(
+    #     field_name='plogdata__mode', lookup_expr='icontains', label='Режим:')
+    # end_exit = django_filters.CharFilter(
+    #     field_name='plogdata__mode', lookup_expr='icontains', label='Режим:')
 
     class Meta:
         model = Plogdata
-        fields = ['first_exit', 'end_exit', 'mode']
+        fields = ['first_exit', 'end_exit', 'hozorgan']
 
 
 # ============ ГОТОВЫЙ ПОИСК СОТРУДНИКОВ ================================
