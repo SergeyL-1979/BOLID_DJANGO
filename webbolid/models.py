@@ -342,6 +342,7 @@ class Plogdata(models.Model):
                                   db_index=True, verbose_name='Время устройства')
     guid = models.CharField(db_column='GUID', primary_key=True, max_length=36)
     doorindex = models.ForeignKey(Acesspoint, models.DO_NOTHING, db_column='DoorIndex', blank=True, null=True)
+    mode = models.IntegerField(db_column='Mode', blank=True, null=True)
 
     # numcom = models.IntegerField(db_column='NumCom', blank=True, null=True)
     # idcomp = models.IntegerField(db_column='IDComp', blank=True, null=True)
@@ -353,7 +354,6 @@ class Plogdata(models.Model):
     # razdindex = models.IntegerField(db_column='RazdIndex', blank=True, null=True)
     # hozguest = models.IntegerField(db_column='HozGuest', blank=True, null=True)
     # doorindex = models.IntegerField(db_column='DoorIndex', blank=True, null=True)
-    mode = models.IntegerField(db_column='Mode', blank=True, null=True)
     # vevent = models.IntegerField(db_column='VEvent', blank=True, null=True)
     # zreserv = models.IntegerField(db_column='ZReserv', blank=True, null=True)
     # zoneindex = models.IntegerField(db_column='ZoneIndex', blank=True, null=True)
