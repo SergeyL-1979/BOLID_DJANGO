@@ -1,28 +1,16 @@
 import base64
-from datetime import datetime
-from idlelib.iomenu import errors
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.db.models import Count, F, Avg
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
+from django.db.models import Count
 from django.views import generic
 from django_filters.views import FilterView
 
 from webbolid.filters import PLogDataFilter, PlistFilter
 from webbolid.forms import PlistForm
 from webbolid.models import Plist, Plogdata, Pmark
-from webbolid.serializers import PListSerializer, PlistPictureSerializer, PLogDataSerializer
 
 
 # ======= Добавлен код для поиска на странице по имени ==================
-# def plist_list(request):
-#     f = PlistFilter(request.GET, queryset=Plist.objects.all())
-#     return render(request, 'webbolid/plist_list.html', {'filter': f})
-
-
 class PlistListFilter(FilterView):
     filterset_class = PlistFilter
     queryset = Plist.objects.all()
