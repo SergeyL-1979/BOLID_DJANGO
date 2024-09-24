@@ -153,7 +153,7 @@ class PMarkView(generic.ListView):
 class WTAView(generic.ListView):
     model = Plogdata
     context_object_name = 'worktime'
-    template_name = 'webbolid/wta.html'
+    template_name = 'webbolid/worktime_account.html'
 
     def get_queryset(self):
         queryset = super().get_queryset().filter(event=32)
@@ -169,16 +169,5 @@ class WTAView(generic.ListView):
         # queryset = Plogdata.objects.values('mode').annotate(count=Count('event')).filter(event=32)
         context['filter'] = filterstime
 
-        paginator = Paginator(filterstime.qs, 2)
-        pages = self.request.GET.get('pages')
-        try:
-            search_results = paginator.page(pages)
-        except PageNotAnInteger:
-            search_results = paginator.page(1)
-        except EmptyPage:
-            search_results = paginator.page(paginator.num_pages)
-
-        context['search'] = search_results
-        # context['group'] = queryset
         return context
 

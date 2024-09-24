@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form method="get" class="search-form">
+        {{ filter.form|crispy }}
+        <button type="submit" class="search-button">Search</button>
+        <button type="button" class="search-button" onclick="window.location.href='/'"> Назад </button>
+    </form>
+    
+    {% for wta in worktime %}
+        <h2>{{ wta }}</h2>
+    {% endfor %}
+{% endblock content %}
