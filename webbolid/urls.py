@@ -25,7 +25,8 @@ urlpatterns = [
     # path('plogdata/', PLogDataListView.as_view(), name='plogdata_list'),
 
     # ======== ввывод кода карты ========
-    path('coding/mark/', views.PMarkView.as_view(), name='encode'),
+    # path('coding/mark/', views.PMarkView.as_view(), name='encode'),
+    path('pmark/search-by-name/', views.PMarkSearchByNameView.as_view(), name='pmark_search_by_name'),
 
     path('wta/', views.WTAView.as_view(), name='wta'),
 
