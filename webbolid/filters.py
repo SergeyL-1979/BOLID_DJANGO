@@ -17,7 +17,7 @@ class PLogDataFilter(django_filters.FilterSet):
         fields = ['hozorgan', 'min_datetime', 'max_datetime', 'event']
 
 
-# ========= УРВ ======================
+# ========= УРВ - В РАЗРАБОТКЕ ======================
 class TimeFilter(django_filters.FilterSet):
     hozorgan = django_filters.CharFilter(
         field_name='hozorgan__name', lookup_expr='icontains', label='Фамилия:')
@@ -51,7 +51,7 @@ class PlistFilter(django_filters.FilterSet):
         }
 # ==========================================================================
 
-# ================= ФОРМА ФИЛЬТРА ПОИСКА НОМЕРА КАРТЫ ==============================
+# ================= ФОРМА ФИЛЬТРА ПОИСКА НОМЕРА КАРТЫ - В РАЗРАБОТКЕ ============================
 class PmarkFilter(filters.FilterSet):
     class PmarkFilter(filters.FilterSet):
         tab_number = filters.CharFilter(field_name="owner__tabnumber", lookup_expr="icontains", label="Табельный номер")
