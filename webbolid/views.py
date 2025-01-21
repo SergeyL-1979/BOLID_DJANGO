@@ -63,7 +63,7 @@ class PListUpdateView(generic.UpdateView):
         return Plist.objects.all()
 
 
-# ================= ПОИСК В ТАБЛИЦЕ PLOGDATA ============================
+# ========================== ПОИСК В ТАБЛИЦЕ PLOGDATA ============================
 class SearchListView(generic.ListView):
     model = Plogdata
     template_name = 'webbolid/search_data.html'
@@ -106,7 +106,7 @@ class SearchListView(generic.ListView):
 # ================================================================================
 
 
-# ======== ввывод кода карты ========
+# ================== ОТОБРАЖЕНИЕ КОДА КАРТЫ ДОСТУПА ================================
 class PMarkSearchByNameView(generic.ListView):
     model = Pmark
     context_object_name = 'codes'
@@ -123,10 +123,7 @@ class PMarkSearchByNameView(generic.ListView):
         name = self.request.GET.get('name')  # Имя
         surname = self.request.GET.get('surname')  # Фамилия
         midname = self.request.GET.get('midname')  # Отчество
-        gtype = self.request.GET.get('gtype')  # Тип пропуска
         group_id = self.request.GET.get('group_id')  # Группа
-        company_id = self.request.GET.get('company_id')  # Компания
-        status = self.request.GET.get('status')  # Статус карты
 
         # Добавляем условия фильтрации
         q_filters = Q()
@@ -138,17 +135,12 @@ class PMarkSearchByNameView(generic.ListView):
             q_filters &= Q(owner__name__icontains=surname)
         if midname:
             q_filters &= Q(owner__midname__icontains=midname)
-        if gtype:
-            q_filters &= Q(gtype=gtype)
         if group_id:
             q_filters &= Q(groupid__id=group_id)
-        if company_id:
-            q_filters &= Q(owner__company__id=company_id)
-        if status:
-            q_filters &= Q(status=status)
-        # return queryset.filter(q_filters)
+
         # Фильтруем данные
         queryset = queryset.filter(q_filters)
+
         # Конвертация кода для каждого объекта
         for obj in queryset:
             raw_value = obj.codep  # Исходное значение кода карты
@@ -156,10 +148,10 @@ class PMarkSearchByNameView(generic.ListView):
             try:
                 # Конвертируем строку в байты с кодировкой cp1251
                 byte_value = raw_value.encode('Windows-1251', errors='ignore')
-                # Отбрасываем первый байт
-                modified_bytes = byte_value[1:]
+                # Убираем символы SQL-92 заполнения (например, пробелы или нулевые байты в конце)
+                trimmed_bytes = byte_value.rstrip(b' \x00')
                 # Заменяем пары байт FE01 на 00
-                modified_bytes = modified_bytes.replace(b'\xFE\x01', b'\x00')
+                modified_bytes = trimmed_bytes.replace(b'\xFE\x01', b'\x00')
                 # Переворачиваем байты
                 reversed_bytes = modified_bytes[::-1]
                 # Заменяем пары байт 03FE на 20
@@ -169,8 +161,8 @@ class PMarkSearchByNameView(generic.ListView):
                 # Сохраняем преобразованный код в объекте
                 obj.converted_code = hex_representation
 
-            except UnicodeEncodeError as e:
-                print(f"Encoding error for {obj.id}: {e}")
+            except (UnicodeEncodeError, AttributeError) as e:
+                print(f"Error processing code for {obj.id}: {e}")
                 obj.converted_code = None  # В случае ошибки сохраняем None
 
         return queryset
@@ -184,6 +176,7 @@ class PMarkSearchByNameView(generic.ListView):
         context['companies'] = Pcompany.objects.all()  # Список компаний
         context['filters'] = self.request.GET  # Передаём текущие фильтры для шаблона
         return context
+# =================================================================================
 
 
 # =========== УЧЕТ РАБОЧЕГО ВРЕМЕНИ =====================
