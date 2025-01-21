@@ -1,6 +1,7 @@
 import django_filters
+from django_filters import rest_framework as filters
 
-from webbolid.models import Plogdata, Plist
+from webbolid.models import Plogdata, Plist, Pmark, Groups, Pcompany
 
 
 class PLogDataFilter(django_filters.FilterSet):
@@ -49,3 +50,17 @@ class PlistFilter(django_filters.FilterSet):
             # 'tabnumber': ['exact', ],
         }
 # ==========================================================================
+
+# ================= ФОРМА ФИЛЬТРА ПОИСКА НОМЕРА КАРТЫ ==============================
+class PmarkFilter(filters.FilterSet):
+    class PmarkFilter(filters.FilterSet):
+        tab_number = filters.CharFilter(field_name="owner__tabnumber", lookup_expr="icontains", label="Табельный номер")
+        name = filters.CharFilter(field_name="owner__firstname", lookup_expr="icontains", label="Имя")
+        surname = filters.CharFilter(field_name="owner__name", lookup_expr="icontains", label="Фамилия")
+        midname = filters.CharFilter(field_name="owner__midname", lookup_expr="icontains", label="Отчество")
+        group_id = filters.ModelChoiceFilter(queryset=Groups.objects.all(), field_name="groupid", label="Группа")
+
+        class Meta:
+            model = Pmark
+            fields = ['tab_number', 'name', 'surname', 'midname', 'gtype', 'group_id',]
+
