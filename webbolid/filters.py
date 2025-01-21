@@ -62,5 +62,5 @@ class PmarkFilter(filters.FilterSet):
 
         class Meta:
             model = Pmark
-            fields = ['tab_number', 'name', 'surname', 'midname', 'gtype', 'group_id',]
+            fields = ['tab_number', 'name', 'surname', 'midname', 'group_id',]
 
